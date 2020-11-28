@@ -23,7 +23,7 @@
                         <i _ngcontent-fqq-c2="" aria-hidden="true" class="fa fa-plus" ng-reflect-klass="fa fa-plus"
                             ng-reflect-ng-class=""></i></fa> Crear Nuevo
                 </button>
-                
+
                 {{!-- <div class="d-inline-block dropdown">
                     <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                         class="btn-shadow dropdown-toggle btn btn-info">
@@ -90,15 +90,18 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>Name</th>
-                                <th class="text-center">City</th>
-                                <th class="text-center">Status</th>
+                                <th>Nombre</th>
+                                <th class="text-center">Contraseña</th>
+                                <th class="text-center">Fecha de creación</th>
+                                <th class="text-center">Fecha de Modificación</th>
+                                <th class="text-center">Estado</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {{#each usuarios}}
                             <tr>
-                                <td class="text-center text-muted">#345</td>
+                                <td class="text-center text-muted"># {{UserId}} </td>
                                 <td>
                                     <div class="widget-content p-0">
                                         <div class="widget-content-wrapper">
@@ -109,23 +112,43 @@
                                                 </div>
                                             </div>
                                             <div class="widget-content-left flex2">
-                                                <div class="widget-heading">John Doe</div>
+                                                <div class="widget-heading">{{UserName}}</div>
                                                 <div class="widget-subheading opacity-7">Web Developer
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">Madrid</td>
+                                <td class="text-center">{{UserPassword}}</td>
+                                <td  class="text-center">{{timeago 	UserCreate_at}}</td>
+                                <td  class="text-center">
+                                     {{#if " UserModify_at =='' " }}
+                                    {{alerta}}
+                                    {{else}}
+                                    {{timeago 	UserModify_at}}
+                                    {{/if}}
+                                    </td>
                                 <td class="text-center">
+                                    {{#if " UserEstado == 1  " }}
+                                    <div class="badge badge-success">Activo</div>
+                                    {{else}}
                                     <div class="badge badge-warning">Pending</div>
+                                    {{/if}}
+                                    
                                 </td>
                                 <td class="text-center">
-                                    <button type="button" id="PopoverCustomT-1"
-                                        class="btn btn-primary btn-sm">Details</button>
+                                    <a  onclick="prueba('hola');" type="button" id="PopoverCustomT-1" class="mr-2 btn-icon btn-icon-only btn btn-outline-warning"><i
+                                            class="pe-7s-pen btn-icon-wrapper"> </i></a>
+                                    <a href="/links/delete/{{UserId}}" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper">
+                                        </i></a>
                                 </td>
                             </tr>
-                            <tr>
+                            {{else}}
+                            <tr class="text-center text-muted">
+                                no hay registro 
+                            </tr>
+                            {{/each}}
+                            {{!-- <tr>
                                 <td class="text-center text-muted">#347</td>
                                 <td>
                                     <div class="widget-content p-0">
@@ -207,7 +230,7 @@
                                     <button type="button" id="PopoverCustomT-4"
                                         class="btn btn-primary btn-sm">Details</button>
                                 </td>
-                            </tr>
+                            </tr> --}}
                         </tbody>
                     </table>
                 </div>
@@ -219,24 +242,50 @@
             </div>
         </div>
     </div>
-    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+
+<div class="modal fade" id="exampleModal" style="margin-top:50px;" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Nuevo Usuario</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p class="mb-0">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+                <form class="needs-validation was-validated" novalidate="" method="POST" action="/links/add">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="validationCustom01">Email</label>
+                            <input type="text" class="form-control" id="validationCustom01" name="email" placeholder="Email" value=""
+                                required="">
+                            <div class="valid-feedback">
+                                Genial!
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="validationCustom02">Contraseña</label>
+                            <input type="password" class="form-control" id="validationCustom02" name="contra" placeholder="Contraseña"
+                                value="" required="">
+                            <div class="valid-feedback">
+                                Genial!
+                            </div>
+                        </div>
+                    </div>
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
-</div>
-
+<script>
+    function prueba(mensaje){
+       { alerta(mensaje);}
+    }
+</script>
